@@ -15,6 +15,7 @@ param resourceNameSuffix string = uniqueString(resourceGroup().id)
 var appServiceAppName = 'toy-website-${resourceNameSuffix}'
 var appServicePlanName = 'toy-website-plan'
 var toyManualsStorageAccountName = 'toyweb${resourceNameSuffix}'
+param loc string = resourceGroup().location
 
 // Define the SKUs for each component based on the environment type.
 var environmentConfigurationMap = {
@@ -72,7 +73,7 @@ resource appServiceApp 'Microsoft.Web/sites@2020-06-01' = {
 
 resource toyManualsStorageAccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
   name: toyManualsStorageAccountName
-  location: resourceGroup().location
+  location: loc
   kind: 'StorageV2'
   sku: environmentConfigurationMap[environmentType].toyManualsStorageAccount.sku
 }
